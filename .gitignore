@@ -1,0 +1,4 @@
+node_modules
+.env
+chatgpt_guidelines.txt
+psql_notes.txt
