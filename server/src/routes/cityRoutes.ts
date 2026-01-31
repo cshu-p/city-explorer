@@ -1,7 +1,29 @@
 import { Router } from "express";
-import { getCityByID } from "../services/database";
+import { getCityByID, findCityByRegionName } from "../services/database";
 
 const router = Router();
+
+router.get("/", async (req, res) => {
+    try {
+      const regionName = req.query.regionName?.toString().trim();
+  
+      if (!regionName) {
+        return res.status(400).json({ message: "regionName is required" });
+      }
+  
+      const city = await findCityByRegionName(regionName);
+  
+      if (!city) {
+        return res.status(404).json({ message: "City not found" });
+      }
+  
+      return res.json(city);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
 
 router.get("/:id", async (req, res) => {
     const id = parseInt(req.params.id);

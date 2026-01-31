@@ -49,3 +49,11 @@ export async function addUser(user: RegisterRequest, password_hash: string): Pro
     );
     return rows[0].id;
 }
+
+export async function findCityByRegionName(regionName: string): Promise<City | null> {
+    const result = await pool.query<City>(
+        `SELECT * FROM city_rent WHERE regionname = $1`,
+        [regionName]
+    );
+    return result.rows[0] ?? null;
+}
