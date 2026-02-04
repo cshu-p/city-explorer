@@ -1,11 +1,17 @@
 import { useState } from "react";
 import type React from "react";
 import { login } from "../api/auth";
+import { useNavigate } from "react-router-dom";
+
+export function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   async function onSubmit(e: React.SyntheticEvent<HTMLFormElement, SubmitEvent>) {
     e.preventDefault();
@@ -14,6 +20,9 @@ export default function LoginPage() {
     try {
       await login({ username, password });
       setStatus("✅ Logged in (token saved). Try a protected API next.");
+
+      await sleep(1000);
+      navigate("/city");
     } catch (err) {
       setStatus(`❌ ${(err as Error).message}`);
     }

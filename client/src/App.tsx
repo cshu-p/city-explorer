@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 import LoginPage from "./pages/LoginPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
+import CityPage from "./pages/CityPage.tsx";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/city" element={<CityPage />} />
       </Routes>
     </div>
   );

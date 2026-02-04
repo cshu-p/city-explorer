@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { register } from "../api/auth";
+import { sleep } from "./LoginPage";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -8,6 +10,7 @@ export default function RegisterPage() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   async function onSubmit(e: React.SyntheticEvent<HTMLFormElement, SubmitEvent>) {
     e.preventDefault();
@@ -16,6 +19,8 @@ export default function RegisterPage() {
     try {
       await register({ username, password, firstName, lastName, email });
       setStatus("✅ Registered and logged in (token saved).");
+      await sleep(1000);
+      navigate("/city");
     } catch (err) {
       setStatus(`❌ ${(err as Error).message}`);
     }
