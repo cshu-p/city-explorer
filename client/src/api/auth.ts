@@ -19,7 +19,6 @@ export type RegisterRequest = {
   email: string;
 };
 
-// assumes your backend returns { token } on success
 export async function register(req: RegisterRequest): Promise<void> {
   const res = await apiFetch<LoginResponse>("/api/auth/register", {
     method: "POST",

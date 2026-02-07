@@ -32,11 +32,49 @@ export type DbUser = {
     password_hash: string;
 };
 
+export type User_1 = {
+    id: number;
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+}
+
 export async function findUserByUsername(username: string): Promise<DbUser | undefined> {
     const result = await pool.query<DbUser>(
         `SELECT id, username, password_hash FROM user_table WHERE username = $1`,
         [username]
     );
+    return result.rows[0];
+}
+
+export async function findUserByUserID(id: number): Promise<User_1 | undefined> {
+    const result = await pool.query<User_1>(
+        `SELECT id, username, first_name AS "firstName", last_name AS "lastName", email FROM user_table WHERE id = $1`,
+        [id]
+    );
+    return result.rows[0];
+}
+
+export async function updateUserByID(
+    id: number,
+    patch: { firstName?: string; lastName?: string }
+  ): Promise<User_1 | undefined> {
+    const result = await pool.query<User_1>(
+      `UPDATE user_table
+       SET
+         first_name = COALESCE($2, first_name),
+         last_name  = COALESCE($3, last_name)
+       WHERE id = $1
+       RETURNING
+         id,
+         username,
+         first_name AS "firstName",
+         last_name  AS "lastName",
+         email`,
+      [id, patch.firstName ?? null, patch.lastName ?? null]
+    );
+  
     return result.rows[0];
 }
 

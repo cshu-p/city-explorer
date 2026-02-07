@@ -24,12 +24,21 @@ export async function apiFetch<T>(
 
   const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
 
-  // Try to parse JSON error/success bodies
+
+  const contentType = res.headers.get("content-type") || "";
   const text = await res.text();
-  const data = text ? JSON.parse(text) : null;
+
+  let data: any = null;
+  if (text && contentType.includes("application/json")) {
+    data = JSON.parse(text);
+  }
 
   if (!res.ok) {
-    const msg = data?.message ?? `Request failed: ${res.status}`;
+    const msg =
+      data?.message ??
+      (text?.startsWith("<!DOCTYPE")
+        ? `Request failed: ${res.status} (received HTML, likely wrong API_BASE or route)`
+        : `Request failed: ${res.status}`);
     throw new Error(msg);
   }
 

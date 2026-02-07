@@ -4,7 +4,7 @@ import authRouter from "./src/routes/auth"
 import cityRouter from "./src/routes/cityRoutes"
 import regRouter from "./src/routes/registerRoutes"
 import cors from "cors";
-
+import meRouter from "./src/routes/meRoutes"
 
 
 const app = express();
@@ -19,7 +19,8 @@ app.get('/api/', (req:Request, res:Response) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/city", cityRouter);
-app.use("/api/auth", regRouter)
+app.use("/api/auth", regRouter);
+app.use("/api/me", meRouter)
 
 app.listen(PORT, () => {
     console.log(`City-explorer is running on http://localhost:${PORT}`);

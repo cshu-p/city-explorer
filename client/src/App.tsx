@@ -2,6 +2,7 @@ import { Routes, Route, Navigate, Link } from "react-router-dom";
 import LoginPage from "./pages/LoginPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import CityPage from "./pages/CityPage.tsx";
+import ProfilePage from "./pages/Profile.tsx";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/city" element={<CityPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </div>
   );
